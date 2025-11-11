@@ -1,0 +1,9 @@
+target
+.git
+.gitignore
+*.log
+.DS_Store
+videos
+*.iml
+.idea
+

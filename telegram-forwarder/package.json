@@ -1,0 +1,22 @@
+{
+  "name": "telegram-channel-forwarder",
+  "version": "1.0.0",
+  "description": "Автоматическая пересылка сообщений из Telegram канала в бота",
+  "main": "forwarder.js",
+  "type": "module",
+  "scripts": {
+    "start": "node forwarder.js"
+  },
+  "keywords": [
+    "telegram",
+    "bot",
+    "forwarder"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^17.2.3",
+    "node-fetch": "^2.7.0",
+    "telegraf": "^4.15.0"
+  }
+}

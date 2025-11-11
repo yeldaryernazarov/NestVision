@@ -1,0 +1,21 @@
+# Пример файла для переопределения настроек docker-compose.yml
+# Скопируйте этот файл в docker-compose.override.yml для локальных настроек
+# Этот файл не должен коммититься в git
+
+version: '3.8'
+
+services:
+  backend:
+    volumes:
+      # Для разработки: монтируем исходники
+      - ./backend/src:/app/src
+      # Для доступа к видео извне
+      - ./backend/videos:/app/videos
+
+  frontend:
+    volumes:
+      # Для разработки: монтируем исходники
+      - ./frontend:/app
+      - /app/node_modules
+      - /app/.next
+
