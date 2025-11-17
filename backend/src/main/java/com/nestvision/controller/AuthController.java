@@ -2,6 +2,7 @@ package com.nestvision.controller;
 
 import com.nestvision.dto.AuthResponse;
 import com.nestvision.dto.DtoMapper;
+import com.nestvision.dto.ErrorResponse;
 import com.nestvision.dto.LoginRequest;
 import com.nestvision.dto.RegisterRequest;
 import com.nestvision.dto.UserResponse;
@@ -25,22 +26,24 @@ public class AuthController {
     private DtoMapper dtoMapper;
     
     @PostMapping("/register")
-    public ResponseEntity<AuthResponse> register(@Valid @RequestBody RegisterRequest request) {
+    public ResponseEntity<?> register(@Valid @RequestBody RegisterRequest request) {
         try {
             AuthResponse response = authService.register(request);
             return ResponseEntity.ok(response);
         } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().build();
+            ErrorResponse errorResponse = new ErrorResponse(e.getMessage(), "REGISTRATION_ERROR");
+            return ResponseEntity.badRequest().body(errorResponse);
         }
     }
     
     @PostMapping("/login")
-    public ResponseEntity<AuthResponse> login(@Valid @RequestBody LoginRequest request) {
+    public ResponseEntity<?> login(@Valid @RequestBody LoginRequest request) {
         try {
             AuthResponse response = authService.login(request);
             return ResponseEntity.ok(response);
         } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().build();
+            ErrorResponse errorResponse = new ErrorResponse(e.getMessage(), "LOGIN_ERROR");
+            return ResponseEntity.badRequest().body(errorResponse);
         }
     }
     

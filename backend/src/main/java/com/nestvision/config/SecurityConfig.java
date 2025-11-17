@@ -58,10 +58,26 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("http://localhost:3000"));
-        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        
+        // Allow localhost for development
+        List<String> allowedOrigins = new java.util.ArrayList<>();
+        allowedOrigins.add("http://localhost:3000");
+        
+        // Allow Vercel deployments (check environment variable or add your Vercel URL)
+        String allowedOriginsEnv = System.getenv("CORS_ALLOWED_ORIGINS");
+        if (allowedOriginsEnv != null && !allowedOriginsEnv.isEmpty()) {
+            allowedOrigins.addAll(Arrays.asList(allowedOriginsEnv.split(",")));
+        }
+        
+        // For production, you might want to allow all Vercel preview deployments
+        // Uncomment the line below if you want to allow all *.vercel.app domains
+        // configuration.setAllowedOriginPatterns(Arrays.asList("https://*.vercel.app"));
+        
+        configuration.setAllowedOrigins(allowedOrigins);
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
         configuration.setAllowCredentials(true);
+        configuration.setMaxAge(3600L); // Cache preflight requests for 1 hour
         
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
